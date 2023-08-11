@@ -6,4 +6,4 @@
 - Receive their current balance.
 - Receive their transaction history.
 - No authentication or authorization will exist for the first stage of development.
-- Only supports us dollars
+- Only supports us dollars during the first stage of development
