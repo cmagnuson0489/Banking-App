@@ -1,42 +1,88 @@
-import random
-# Generate 5 random numbers between 1 and 10
-randomlist = random.sample(range(1, 10), 6)
-accountNumber = ''.join(str(randomlist).split(','))
+class BankAccount:
+    def __init__(self, account_number, balance=0):
+        self.account_number = account_number
+        self.balance = balance
+        self.transaction_history = []
+
+    def deposit(self, amount):
+        if amount > 0:
+            self.balance += amount
+            self.transaction_history.append(f"Deposited: ${amount:.2f}")
+            print(f"Successfully deposited ${amount:.2f}. Current balance: ${self.balance:.2f}")
+        else:
+            print("Invalid deposit amount. Please enter a positive value.")
+
+    def withdraw(self, amount):
+        if 0 < amount <= self.balance:
+            self.balance -= amount
+            self.transaction_history.append(f"Withdrew: ${amount:.2f}")
+            print(f"Successfully withdrew ${amount:.2f}. Current balance: ${self.balance:.2f}")
+        else:
+            print("Insufficient balance or invalid withdrawal amount.")
+
+    def get_balance(self):
+        return self.balance
+
+    def get_transaction_history(self):
+        return self.transaction_history
 
 
-class bankAccount:
+def main():
+    accounts = {}
 
-    customerName = ""
+    while True:
+        print("\n===== Simple Banking Application =====")
+        print("1. Create an account")
+        print("2. Request account information")
+        print("3. Deposit money")
+        print("4. Withdraw money")
+        print("5. Exit")
 
-    customerDeposit = 0
+        choice = input("Enter your choice (1/2/3/4/5): ")
 
-    type = ""
+        if choice == "1":
+            account_number = input("Enter your account number: ")
+            if account_number in accounts:
+                print("Account already exists. Please choose another account number.")
+            else:
+                accounts[account_number] = BankAccount(account_number)
+                print("Account created successfully.")
 
-    def createAccount(self):
+        elif choice == "2":
+            account_number = input("Enter your account number: ")
+            if account_number in accounts:
+                account = accounts[account_number]
+                print(f"Account Number: {account.account_number}")
+                print(f"Current Balance: ${account.get_balance():.2f}")
+                print("Transaction History:")
+                for transaction in account.get_transaction_history():
+                    print(transaction)
+            else:
+                print("Account not found. Please check your account number.")
 
-        self.name = input(
-            "Please enter the account holder's first and last name:")
+        elif choice == "3":
+            account_number = input("Enter your account number: ")
+            if account_number in accounts:
+                amount = float(input("Enter the amount to deposit: $"))
+                accounts[account_number].deposit(amount)
+            else:
+                print("Account not found. Please check your account number.")
 
-        self.type = input(
-            "Please enter the account you would like to access such as Checking, Savings, Money Market: ")
+        elif choice == "4":
+            account_number = input("Enter your account number: ")
+            if account_number in accounts:
+                amount = float(input("Enter the amount to withdraw: $"))
+                accounts[account_number].withdraw(amount)
+            else:
+                print("Account not found. Please check your account number.")
 
-        self.customerDeposit = int(input(
-            "Please enter the amount you would like to deposit in your account:"))
+        elif choice == "5":
+            print("Thank you for using the Simple Banking Application. Goodbye!")
+            break
 
-        print("\n Congratulations! Your account has been created")
-
-    def displayAccount(self):
-
-        print("Account Holder's Name: ", self.name)
-
-        print("Type of Account:", self.type)
-
-        print("Balance:", self.deposit)
+        else:
+            print("Invalid choice. Please choose a valid option (1/2/3/4/5).")
 
 
-def modifyAccount(self):
-
-    self.name = input("Modify the Account Holder's name: ")
-
-    self.type = input(
-        "Modify the type of Account(checking, savings, money market): ")
+if __name__ == "__main__":
+    main()
